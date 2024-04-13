@@ -96,7 +96,7 @@
             BinaryWriter2.Close()
             FileStream2.Close()
         End If
-        Shell("adb.exe connect 10.0.0.27:5555", AppWinStyle.Hide, Wait:=True)
+
 
         Dim VRPI As New ProcessStartInfo("adb.exe", "shell media volume --get")
         Dim VRP As New Process()
@@ -117,7 +117,7 @@
             Dim VRPSS As String = VRPO.Substring(67, 2)
             TextBoxV.Text = VRPSS
         Catch f As ArgumentOutOfRangeException
-            MsgBox("Please double check the device is active, and accepting ADB TCPIP connections on ""10.0.0.27:5555."", then reconnect by clicking on the icon within the application window.")
+            MsgBox($"Please double check the device is active, and accepting ADB TCPIP connections on {TextBoxAddress.Text}, then reconnect by clicking on the icon within the application window.")
         End Try
         Me.Location = New Point(Screen.PrimaryScreen.WorkingArea.Width - Me.Width, Screen.PrimaryScreen.WorkingArea.Height - Me.Height - 40)
     End Sub
@@ -150,8 +150,10 @@
         Shell("adb.exe shell media dispatch next")
     End Sub
 
-    Private Sub PBC_Click(sender As Object, e As EventArgs) Handles PBC.Click
-        Shell("adb.exe connect 10.0.0.27:5555")
+
+    Private Sub ButtonConnect_Click(sender As Object, e As EventArgs) Handles ButtonConnect.Click
+        Dim addressAndPort = TextBoxAddress.Text
+        Shell($"adb.exe connect {addressAndPort}", AppWinStyle.Hide, Wait:=True)
         Dim VRPI As New ProcessStartInfo("adb.exe", "shell media volume --get")
         Dim VRP As New Process()
         VRP.StartInfo = VRPI
@@ -169,7 +171,12 @@
             Dim VRPSS As String = VRPO.Substring(67, 2)
             TextBoxV.Text = VRPSS
         Catch f As ArgumentOutOfRangeException
-            MsgBox("Please double check the device is active, and accepting ADB TCPIP connections on ""10.0.0.27:5555."", then reconnect by clicking on the icon within the application window.")
+            MsgBox($"Please double check the device is active, and accepting ADB TCPIP connections on {TextBoxAddress.Text}, then try to reconnect")
         End Try
     End Sub
+
+    Public Function 
+
+    End Function
+
 End Class

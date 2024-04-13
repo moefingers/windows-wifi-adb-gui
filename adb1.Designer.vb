@@ -40,7 +40,8 @@ Partial Class FM
         Me.PBC = New System.Windows.Forms.PictureBox()
         Me.TT = New System.Windows.Forms.ToolTip(Me.components)
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.TextBoxAddress = New System.Windows.Forms.TextBox()
+        Me.ButtonConnect = New System.Windows.Forms.Button()
         Me.CMSE.SuspendLayout()
         CType(Me.PBC, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -213,7 +214,7 @@ Partial Class FM
         Me.PBC.BackColor = System.Drawing.Color.Transparent
         Me.PBC.BackgroundImage = Global.adb1.My.Resources.Resources.adbicon
         Me.PBC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.PBC.Location = New System.Drawing.Point(22, 8)
+        Me.PBC.Location = New System.Drawing.Point(22, 10)
         Me.PBC.Margin = New System.Windows.Forms.Padding(0)
         Me.PBC.Name = "PBC"
         Me.PBC.Size = New System.Drawing.Size(22, 22)
@@ -236,18 +237,33 @@ Partial Class FM
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft
         Me.Label1.UseCompatibleTextRendering = True
         '
-        'TextBox1
+        'TextBoxAddress
         '
-        Me.TextBox1.BackColor = System.Drawing.Color.DarkGreen
-        Me.TextBox1.ForeColor = System.Drawing.Color.White
-        Me.TextBox1.Location = New System.Drawing.Point(51, 99)
-        Me.TextBox1.Margin = New System.Windows.Forms.Padding(0)
-        Me.TextBox1.MaxLength = 2
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.ShortcutsEnabled = False
-        Me.TextBox1.Size = New System.Drawing.Size(79, 20)
-        Me.TextBox1.TabIndex = 20
-        Me.TextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.TextBoxAddress.BackColor = System.Drawing.Color.DarkGreen
+        Me.TextBoxAddress.ForeColor = System.Drawing.Color.White
+        Me.TextBoxAddress.Location = New System.Drawing.Point(51, 99)
+        Me.TextBoxAddress.Margin = New System.Windows.Forms.Padding(0)
+        Me.TextBoxAddress.MaxLength = 30
+        Me.TextBoxAddress.Name = "TextBoxAddress"
+        Me.TextBoxAddress.ShortcutsEnabled = False
+        Me.TextBoxAddress.Size = New System.Drawing.Size(119, 20)
+        Me.TextBoxAddress.TabIndex = 20
+        Me.TextBoxAddress.Text = "10.0.0.27:5555"
+        Me.TextBoxAddress.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'ButtonConnect
+        '
+        Me.ButtonConnect.BackColor = System.Drawing.Color.Transparent
+        Me.ButtonConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonConnect.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!)
+        Me.ButtonConnect.ForeColor = System.Drawing.Color.DarkGreen
+        Me.ButtonConnect.Location = New System.Drawing.Point(98, 119)
+        Me.ButtonConnect.Margin = New System.Windows.Forms.Padding(0)
+        Me.ButtonConnect.Name = "ButtonConnect"
+        Me.ButtonConnect.Size = New System.Drawing.Size(72, 20)
+        Me.ButtonConnect.TabIndex = 21
+        Me.ButtonConnect.Text = "Connect"
+        Me.ButtonConnect.UseVisualStyleBackColor = False
         '
         'FM
         '
@@ -256,8 +272,9 @@ Partial Class FM
         Me.BackColor = System.Drawing.Color.Black
         Me.BackgroundImage = Global.adb1.My.Resources.Resources.back
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(179, 136)
-        Me.Controls.Add(Me.TextBox1)
+        Me.ClientSize = New System.Drawing.Size(191, 156)
+        Me.Controls.Add(Me.ButtonConnect)
+        Me.Controls.Add(Me.TextBoxAddress)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.PBC)
         Me.Controls.Add(Me.LT)
@@ -300,5 +317,6 @@ Partial Class FM
     Friend WithEvents PBC As PictureBox
     Friend WithEvents TT As ToolTip
     Friend WithEvents Label1 As Label
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents TextBoxAddress As TextBox
+    Friend WithEvents ButtonConnect As Button
 End Class
