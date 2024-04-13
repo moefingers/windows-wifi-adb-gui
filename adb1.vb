@@ -17,6 +17,7 @@ Public Class FM
     End Sub
     Private Sub Minimize_Click(sender As Object, e As EventArgs) Handles ButtonM.Click
         Me.WindowState = FormWindowState.Minimized
+        adbpair.WindowState = FormWindowState.Minimized
         Me.ShowInTaskbar = False
         NI.Visible = True
     End Sub
@@ -266,6 +267,7 @@ Public Class FM
 
         Dim RegExpMatchOutputSuccess As Boolean = Regex.IsMatch(StandardResult(0), ".*Successful.*")
         Dim RegExpMatchVolumeNormal As Boolean = Regex.IsMatch(StandardResult(0), ".*volume.*")
+        Dim RegExpConnected As Boolean = Regex.IsMatch(StandardResult(0), ".*connected.*")
 
         'Console.WriteLine($"RegExpMatch: {RegExpMatchOutput.Groups(0).Value}")
         'Console.WriteLine($"RegExpMatch: {RegExpMatchOutput.Groups(1).Value}")
@@ -280,8 +282,13 @@ Public Class FM
 
         If RegExpMatchOutputSuccess = True Then
             ShortStatusLabel.Text = "Pairing successful."
+        ElseIf RegExpConnected = True Then
+            ShortStatusLabel.Text = "Connected. Ready."
         Else
-            If Not Parameters = "kill-server" And RegExpMatchVolumeNormal = False And Not StandardResult(0) = "" Then
+            If Not Parameters = "kill-server" And
+                RegExpMatchVolumeNormal = False And
+                RegExpConnected = False And
+                Not StandardResult(0) = "" Then
                 ConnectionErrorMsgBox($"Check ADDRESS and PORT... {StandardResult(0)} || {StandardResult(1)}")
             End If
 
