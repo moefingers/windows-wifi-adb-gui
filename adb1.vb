@@ -1,20 +1,19 @@
 ﻿Imports System.IO
+Imports System.Runtime.InteropServices
+Imports System.Security.Cryptography.X509Certificates
+Imports System.Text.RegularExpressions
 Imports System.Xml
 
+
 Public Class FM
-
-    Private Sub ButtonPP_Click(sender As Object, e As EventArgs) Handles ButtonPP.Click
-        Shell("adb.exe shell media dispatch play-pause")
-    End Sub
-
+    Dim ErrorMessage As String
+    'Exit, minimize, on close
     Private Sub FormMain_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        Shell("adb.exe kill-server")
+        ExecuteHiddenProcess("adb.exe", "kill-server")
     End Sub
     Private Sub ButtonE_ClickOrTSMIE_Click(sender As Object, e As EventArgs) Handles ButtonE.Click, TSMIE.Click
         Application.Exit()
-
     End Sub
-
     Private Sub Minimize_Click(sender As Object, e As EventArgs) Handles ButtonM.Click
         Me.WindowState = FormWindowState.Minimized
         Me.ShowInTaskbar = False
@@ -78,7 +77,7 @@ Public Class FM
         End If
 
         ' now that we have the exe,kill server regardless of if it's running or not
-        Shell("adb.exe kill-server", AppWinStyle.Hide, Wait:=True)
+        ExecuteHiddenProcess("adb.exe", "kill-server")
 
 
         ' check if configtxt exists and write one if it doesn't with default being my local working address/port
@@ -90,7 +89,7 @@ Public Class FM
             Console.WriteLine($"The first line of {configTxtPath} is {configLine1}")
             TextBoxAddress.Text = configLine1
         Else
-            ' create file
+            ' create config file if doesnt exist
             File.Create(configTxtPath).Dispose()
             ' write to file and second parameter is for append (false means overwrite)
             Console.WriteLine("created config.txt because it didn't exist")
@@ -109,42 +108,54 @@ Public Class FM
         TextBoxAddress.Text = WrittenConfigLine1
     End Sub
 
-    Private Sub ButtonRV_Click(sender As Object, e As EventArgs) Handles ButtonRV.Click
-        'raise volume for connected device
-        Shell("adb.exe shell media volume --adj raise", , Wait:=True)
+    'pair button
+    Private Sub ButtonPair_Click(sender As Object, e As EventArgs) Handles ButtonPair.Click
 
-        'Get and connected device volume and update textbox displaying
+        If Application.OpenForms.OfType(Of Form).Contains(adbpair) Then
+            ButtonPair.Text = "Pair"
+            adbpair.Close()
+        Else
+            ButtonPair.Text = "Cancel Pairing"
+            adbpair.Show()
+        End If
+
+    End Sub
+
+    'media controls
+    Private Sub ButtonPP_Click(sender As Object, e As EventArgs) Handles ButtonPP.Click
+        ExecuteHiddenProcess("adb.exe", "shell media dispatch play-pause")
+    End Sub
+    Private Sub ButtonRV_Click(sender As Object, e As EventArgs) Handles ButtonRV.Click
+        'raise volume for connected device and update volume in text box with GetConnectedDeviceVolume()
+        ExecuteHiddenProcess("adb.exe", "shell media volume --adj raise")
         GetConnectedDeviceVolume()
     End Sub
 
     Private Sub ButtonLV_Click(sender As Object, e As EventArgs) Handles ButtonLV.Click
-        'lower volume for connected device
-        Shell("adb.exe shell media volume --adj lower", , Wait:=True)
-
-        'Get and connected device volume and update textbox displaying
+        'lower volume for connected device and update volume in text box with GetConnectedDeviceVolume()
+        ExecuteHiddenProcess("adb.exe", "shell media volume --adj lower")
         GetConnectedDeviceVolume()
     End Sub
 
     Private Sub ButtonSV_Click(sender As Object, e As EventArgs) Handles ButtonSV.Click
-        'Set volume for connected device
-        Shell("adb.exe shell media volume --set " & TextBoxV.Text, , Wait:=True)
-
-        'Get and connected device volume and update textbox displaying
+        'Set volume for connected device and update volume in text box with GetConnectedDeviceVolume()
+        ExecuteHiddenProcess("adb.exe", $"shell media volume --set {TextBoxV.Text}")
         GetConnectedDeviceVolume()
     End Sub
 
     Private Sub ButtonP_Click(sender As Object, e As EventArgs) Handles ButtonP.Click
         'Double execution media previous because the first previous returns to beginning of song
-        Shell("adb shell media dispatch previous")
-        Shell("adb shell media dispatch previous")
+        ExecuteHiddenProcess("adb.exe", "media dispatch previous")
+        ExecuteHiddenProcess("adb.exe", "media dispatch previous")
     End Sub
 
     Private Sub ButtonN_Click(sender As Object, e As EventArgs) Handles ButtonN.Click
-        ' Executes media forward
-        Shell("adb.exe shell media dispatch next")
+        ExecuteHiddenProcess("adb.exe", "media dispatch next")
     End Sub
 
-    Private Sub ButtonConnect_Click(sender As Object, e As EventArgs) Handles ButtonConnect.Click
+    'Connection
+    Private Async Sub ButtonConnect_Click(sender As Object, e As EventArgs) Handles ButtonConnect.Click
+
         ' Write/save  new adddress/port to config
         '
         'initialize path for config
@@ -169,76 +180,57 @@ Public Class FM
 
     End Sub
 
-    Private Sub ButtonPair_Click(sender As Object, e As EventArgs) Handles ButtonPair.Click
-        If Application.OpenForms.OfType(Of Form).Contains(adbpair) Then
-            ButtonPair.Text = "Pair"
-            adbpair.Close()
-        Else
-            ButtonPair.Text = "Cancel Pairing"
-            adbpair.Show()
-        End If
 
+    Private Sub ButtonConnect_MouseDown(sender As Object, e As MouseEventArgs) Handles ButtonConnect.MouseDown
+        ButtonConnect.BackColor = Color.Red
+        ButtonConnect.Text = "WAIT."
+    End Sub
+
+    Private Sub ButtonConnect_MouseUp(sender As Object, e As MouseEventArgs) Handles ButtonConnect.MouseUp
+        ButtonConnect.BackColor = Color.Transparent
+        ButtonConnect.Text = "Connect"
     End Sub
 
     Public Sub Connect()
-        Console.WriteLine($"Attempting connection to {TextBoxAddress.Text}")
-        Console.WriteLine($"adb.exe connect {TextBoxAddress.Text}")
-        Shell($"adb.exe connect {TextBoxAddress.Text}", AppWinStyle.Hide, Wait:=True)
 
-        'Get and connected device volume and update textbox displaying
+        'invoke hidden process function with standard hidden properties
+        'return is array of standardoutput and standard error
+        ExecuteHiddenProcess("adb.exe", $"connect {TextBoxAddress.Text}")
+
         GetConnectedDeviceVolume()
     End Sub
 
     Private Async Function GetConnectedDeviceVolume() As Task
-        ' get volume  process
-        Dim GetVolumeProcess As New Process()
-        GetVolumeProcess.StartInfo = New ProcessStartInfo("adb.exe", "shell media volume --get")
-        GetVolumeProcess.StartInfo.UseShellExecute = False
-        GetVolumeProcess.StartInfo.RedirectStandardOutput = True
-        GetVolumeProcess.StartInfo.RedirectStandardError = True
 
-        'GetVolumeProcess.StartInfo.CreateNoWindow = True 
-        ' Haven't found a difference on the above line... 
-        GetVolumeProcess.Start()
-        ProgressBar.Visible = True
-        ProgressBar.Value = 50
-
-
-        Console.WriteLine("adb.exe shell media volume --get")
-        Console.WriteLine("output if any:" + GetVolumeProcess.StandardOutput.ReadToEnd)
-        Console.WriteLine("error if any:" + GetVolumeProcess.StandardError.ReadToEnd)
-        ' Recognized error list:
-        ' "error: no devices/emulators found"
-
-        ' read output
-        Dim VolumeProcessOutput As String
-        Using GetVolumeOutputStreamReader As System.IO.StreamReader = GetVolumeProcess.StandardOutput
-            VolumeProcessOutput = GetVolumeOutputStreamReader.ReadToEnd
-        End Using
+        'invoke hidden process function with standard hidden properties
+        'return is array of standardoutput and standard error
+        Dim VolumeProcessOutput = Await ExecuteHiddenProcess("adb.exe", "shell media volume --get")
 
 
         ' set volume in textbox for viewing
         Try
-            Dim GetVolumeProcessSS As String = VolumeProcessOutput.Substring(67, 2)
+            Dim GetVolumeProcessSS As String = VolumeProcessOutput(0).Substring(67, 2)
             MsgBox(GetVolumeProcessSS)
             TextBoxV.Text = GetVolumeProcessSS
         Catch f As ArgumentOutOfRangeException
-            ConnectionErrorMsgBox()
+            ConnectionErrorMsgBox($"{VolumeProcessOutput(0)} ||||||||||| {VolumeProcessOutput(1)}")
         End Try
 
     End Function
 
 
     'error details stuff
-    Private Sub ConnectionErrorMsgBox()
+    Public Sub ConnectionErrorMsgBox(Message As String)
+        Me.ErrorMessage = Message
         ErrorDetailsLabel.Visible = True
     End Sub
 
     Private Sub ErrorDetailsLabel_Click(sender As Object, e As EventArgs) Handles ErrorDetailsLabel.Click
-        MsgBox($"Please double check the device is active, and accepting ADB TCPIP connections on {TextBoxAddress.Text}, then try to connect again.")
+        MsgBox(Me.ErrorMessage)
         ErrorDetailsLabel.Visible = False
-    End Sub
 
+    End Sub
+    'hover over color changes so user can feel that it's a button
     Private Sub ErrorDetailsLabel_Enter(sender As Object, e As EventArgs) Handles ErrorDetailsLabel.MouseEnter
         ErrorDetailsLabel.BackColor = Color.White
         ErrorDetailsLabel.ForeColor = Color.Red
@@ -247,4 +239,51 @@ Public Class FM
         ErrorDetailsLabel.BackColor = Color.Red
         ErrorDetailsLabel.ForeColor = Color.White
     End Sub
+
+    'execute any function as hidden
+    Public Async Function ExecuteHiddenProcess(FileName As String, Parameters As String) As Task(Of Array)
+
+
+        Console.WriteLine($"EXECUTING {FileName} {Parameters}")
+        Dim HiddenProcess As New Process()
+        HiddenProcess.StartInfo = New ProcessStartInfo(FileName, Parameters)
+        HiddenProcess.StartInfo.UseShellExecute = False
+        HiddenProcess.StartInfo.RedirectStandardOutput = True
+        HiddenProcess.StartInfo.RedirectStandardError = True
+        HiddenProcess.StartInfo.CreateNoWindow = True
+        HiddenProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
+        HiddenProcess.StartInfo.RedirectStandardInput = False
+
+        HiddenProcess.Start()
+
+        Dim StandardResult = {HiddenProcess.StandardOutput.ReadToEnd, HiddenProcess.StandardError.ReadToEnd}
+
+        Dim RegExpMatchOutput As Match = Regex.Match(StandardResult(0), "(.*): (.*)")
+        Dim RegExpMatchError As Match = Regex.Match(StandardResult(1), "(.*): (.*)")
+
+        Dim RegExpMatchOutputSuccess As Boolean = Regex.IsMatch(StandardResult(0), "Successful.*")
+
+        'Console.WriteLine($"RegExpMatch: {RegExpMatchOutput.Groups(0).Value}")
+        'Console.WriteLine($"RegExpMatch: {RegExpMatchOutput.Groups(1).Value}")
+        'Console.WriteLine($"RegExpMatch: {RegExpMatchError.Groups(0).Value}")
+        'Console.WriteLine($"RegExpMatch: {RegExpMatchError.Groups(1).Value}")
+
+        'If RegExpMatchOutput.Groups(1).Value = "No connection could be made because the target machine actively refused it. (10061)" Then
+        '    MsgBox($"Check Address and port... {RegExpMatchOutput.Groups(0).Value} {RegExpMatchOutput.Groups(1).Value}")
+        'End If
+
+        Console.WriteLine($"{StandardResult(0)} || {StandardResult(1)}")
+
+        If RegExpMatchOutputSuccess = True Then
+            ShortStatusLabel.Text = "Pairing successful."
+        Else
+            ConnectionErrorMsgBox($"Check Address and port... {StandardResult(0)} || {StandardResult(1)}")
+        End If
+
+
+        Return StandardResult
+    End Function
+
+
 End Class
+

@@ -43,8 +43,8 @@ Partial Class FM
         Me.TextBoxAddress = New System.Windows.Forms.TextBox()
         Me.ButtonConnect = New System.Windows.Forms.Button()
         Me.ButtonPair = New System.Windows.Forms.Button()
-        Me.ProgressBar = New System.Windows.Forms.ProgressBar()
         Me.ErrorDetailsLabel = New System.Windows.Forms.Label()
+        Me.ShortStatusLabel = New System.Windows.Forms.Label()
         Me.CMSE.SuspendLayout()
         CType(Me.PBC, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -283,17 +283,6 @@ Partial Class FM
         Me.ButtonPair.Text = "Pair"
         Me.ButtonPair.UseVisualStyleBackColor = False
         '
-        'ProgressBar
-        '
-        Me.ProgressBar.BackColor = System.Drawing.Color.Black
-        Me.ProgressBar.Location = New System.Drawing.Point(12, 50)
-        Me.ProgressBar.Margin = New System.Windows.Forms.Padding(0)
-        Me.ProgressBar.Name = "ProgressBar"
-        Me.ProgressBar.Size = New System.Drawing.Size(100, 23)
-        Me.ProgressBar.TabIndex = 23
-        Me.TT.SetToolTip(Me.ProgressBar, "Executing...")
-        Me.ProgressBar.Visible = False
-        '
         'ErrorDetailsLabel
         '
         Me.ErrorDetailsLabel.AutoSize = True
@@ -307,6 +296,20 @@ Partial Class FM
         Me.ErrorDetailsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.ErrorDetailsLabel.Visible = False
         '
+        'ShortStatusLabel
+        '
+        Me.ShortStatusLabel.AutoSize = True
+        Me.ShortStatusLabel.BackColor = System.Drawing.Color.Transparent
+        Me.ShortStatusLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold)
+        Me.ShortStatusLabel.ForeColor = System.Drawing.Color.Magenta
+        Me.ShortStatusLabel.Location = New System.Drawing.Point(13, 63)
+        Me.ShortStatusLabel.Margin = New System.Windows.Forms.Padding(0)
+        Me.ShortStatusLabel.Name = "ShortStatusLabel"
+        Me.ShortStatusLabel.Size = New System.Drawing.Size(0, 20)
+        Me.ShortStatusLabel.TabIndex = 25
+        Me.ShortStatusLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft
+        Me.ShortStatusLabel.UseCompatibleTextRendering = True
+        '
         'FM
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -315,8 +318,8 @@ Partial Class FM
         Me.BackgroundImage = Global.adb1.My.Resources.Resources.back
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(200, 150)
+        Me.Controls.Add(Me.ShortStatusLabel)
         Me.Controls.Add(Me.ErrorDetailsLabel)
-        Me.Controls.Add(Me.ProgressBar)
         Me.Controls.Add(Me.ButtonPair)
         Me.Controls.Add(Me.ButtonConnect)
         Me.Controls.Add(Me.TextBoxAddress)
@@ -365,6 +368,6 @@ Partial Class FM
     Friend WithEvents TextBoxAddress As TextBox
     Friend WithEvents ButtonConnect As Button
     Friend WithEvents ButtonPair As Button
-    Friend WithEvents ProgressBar As ProgressBar
     Friend WithEvents ErrorDetailsLabel As Label
+    Friend WithEvents ShortStatusLabel As Label
 End Class

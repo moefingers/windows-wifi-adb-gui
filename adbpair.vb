@@ -12,6 +12,10 @@
     End Sub
 
     Private Sub ButtonPair_Click(sender As Object, e As EventArgs) Handles ButtonPair.Click
+        If Len(TextBoxPairCode.Text) = 6 And Len(TextBoxPairAddress.Text) > 8 Then
+            adb1.FM.ExecuteHiddenProcess("adb.exe", $"pair {TextBoxPairAddress.Text} {TextBoxPairCode.Text}")
+        Else
+        End If
 
     End Sub
 End Class
