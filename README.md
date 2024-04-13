@@ -1,8 +1,13 @@
 # Summary / Use
-A GUI nested in the windows task tray to control music on a device running ADB over WIFI.\
+<div style="display:flex; justify-content: space-between;">
+<div> A GUI nested in the windows task tray to control music on a device running ADB over WIFI.
 This is a passion project begun prior to 2019 and I resumed work on it in April 2024.
 
 As of late, <u>**it is required to pair a device prior**</u> to connection. See images. And don't forget to input the address again with NEW port from OTHER page on your Wireless Debugging application AFTER you pair.
+</div>
+<img src="https://raw.githubusercontent.com/moefingers/windows-wifi-adb-gui/shepherd/README-demo.gif">
+</div>
+
 <!-- inc image -->
 <!-- ![Image](/README-pair1.png) -->
 <div style="display:flex">
@@ -25,6 +30,7 @@ Android Debug Bridge version 1.0.41 | Version 35.0.1-11580240 | Associated [NOTI
 
 
 ## Completed tasks
+- added demo gif
 - no longer shows error on successful connect but rather a friendly connected message
 - version 3.0.0.8 minimizes secondary window when minimizing first
 - added download and release to github
