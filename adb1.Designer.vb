@@ -42,6 +42,9 @@ Partial Class FM
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TextBoxAddress = New System.Windows.Forms.TextBox()
         Me.ButtonConnect = New System.Windows.Forms.Button()
+        Me.ButtonPair = New System.Windows.Forms.Button()
+        Me.ProgressBar = New System.Windows.Forms.ProgressBar()
+        Me.ErrorDetailsLabel = New System.Windows.Forms.Label()
         Me.CMSE.SuspendLayout()
         CType(Me.PBC, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -52,10 +55,10 @@ Partial Class FM
         Me.ButtonPP.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonPP.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!)
         Me.ButtonPP.ForeColor = System.Drawing.Color.DarkGreen
-        Me.ButtonPP.Location = New System.Drawing.Point(9, 50)
+        Me.ButtonPP.Location = New System.Drawing.Point(64, 30)
         Me.ButtonPP.Margin = New System.Windows.Forms.Padding(0)
         Me.ButtonPP.Name = "ButtonPP"
-        Me.ButtonPP.Size = New System.Drawing.Size(72, 20)
+        Me.ButtonPP.Size = New System.Drawing.Size(62, 20)
         Me.ButtonPP.TabIndex = 4
         Me.ButtonPP.Text = "Pause/Play"
         Me.ButtonPP.UseVisualStyleBackColor = False
@@ -66,7 +69,7 @@ Partial Class FM
         Me.ButtonM.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonM.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonM.ForeColor = System.Drawing.Color.DarkGreen
-        Me.ButtonM.Location = New System.Drawing.Point(44, 10)
+        Me.ButtonM.Location = New System.Drawing.Point(100, 2)
         Me.ButtonM.Margin = New System.Windows.Forms.Padding(0)
         Me.ButtonM.Name = "ButtonM"
         Me.ButtonM.Size = New System.Drawing.Size(55, 20)
@@ -99,7 +102,7 @@ Partial Class FM
         Me.ButtonLV.BackColor = System.Drawing.Color.Transparent
         Me.ButtonLV.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonLV.ForeColor = System.Drawing.Color.DarkGreen
-        Me.ButtonLV.Location = New System.Drawing.Point(110, 70)
+        Me.ButtonLV.Location = New System.Drawing.Point(178, 73)
         Me.ButtonLV.Margin = New System.Windows.Forms.Padding(0)
         Me.ButtonLV.Name = "ButtonLV"
         Me.ButtonLV.Size = New System.Drawing.Size(20, 20)
@@ -112,7 +115,7 @@ Partial Class FM
         Me.ButtonRV.BackColor = System.Drawing.Color.Transparent
         Me.ButtonRV.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonRV.ForeColor = System.Drawing.Color.DarkGreen
-        Me.ButtonRV.Location = New System.Drawing.Point(110, 30)
+        Me.ButtonRV.Location = New System.Drawing.Point(178, 33)
         Me.ButtonRV.Margin = New System.Windows.Forms.Padding(0)
         Me.ButtonRV.Name = "ButtonRV"
         Me.ButtonRV.Size = New System.Drawing.Size(20, 20)
@@ -122,14 +125,14 @@ Partial Class FM
         '
         'ButtonE
         '
-        Me.ButtonE.BackColor = System.Drawing.Color.Transparent
+        Me.ButtonE.BackColor = System.Drawing.Color.Red
         Me.ButtonE.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ButtonE.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ButtonE.ForeColor = System.Drawing.Color.DarkGreen
-        Me.ButtonE.Location = New System.Drawing.Point(99, 10)
+        Me.ButtonE.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ButtonE.ForeColor = System.Drawing.Color.White
+        Me.ButtonE.Location = New System.Drawing.Point(155, 2)
         Me.ButtonE.Margin = New System.Windows.Forms.Padding(0)
         Me.ButtonE.Name = "ButtonE"
-        Me.ButtonE.Size = New System.Drawing.Size(31, 20)
+        Me.ButtonE.Size = New System.Drawing.Size(43, 20)
         Me.ButtonE.TabIndex = 11
         Me.ButtonE.Text = "Exit"
         Me.TT.SetToolTip(Me.ButtonE, "Disconnects and exits the application.")
@@ -139,7 +142,7 @@ Partial Class FM
         '
         Me.TextBoxV.BackColor = System.Drawing.Color.DarkGreen
         Me.TextBoxV.ForeColor = System.Drawing.Color.White
-        Me.TextBoxV.Location = New System.Drawing.Point(110, 50)
+        Me.TextBoxV.Location = New System.Drawing.Point(178, 53)
         Me.TextBoxV.Margin = New System.Windows.Forms.Padding(0)
         Me.TextBoxV.MaxLength = 2
         Me.TextBoxV.Name = "TextBoxV"
@@ -148,6 +151,7 @@ Partial Class FM
         Me.TextBoxV.TabIndex = 13
         Me.TextBoxV.Text = "00"
         Me.TextBoxV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.TT.SetToolTip(Me.TextBoxV, "Max volume 15 if I remember correctly")
         '
         'ButtonP
         '
@@ -158,7 +162,7 @@ Partial Class FM
         Me.ButtonP.Location = New System.Drawing.Point(12, 30)
         Me.ButtonP.Margin = New System.Windows.Forms.Padding(0)
         Me.ButtonP.Name = "ButtonP"
-        Me.ButtonP.Size = New System.Drawing.Size(59, 20)
+        Me.ButtonP.Size = New System.Drawing.Size(52, 20)
         Me.ButtonP.TabIndex = 14
         Me.ButtonP.Text = "Previous"
         Me.ButtonP.UseVisualStyleBackColor = False
@@ -169,7 +173,7 @@ Partial Class FM
         Me.ButtonN.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonN.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!)
         Me.ButtonN.ForeColor = System.Drawing.Color.DarkGreen
-        Me.ButtonN.Location = New System.Drawing.Point(71, 30)
+        Me.ButtonN.Location = New System.Drawing.Point(126, 30)
         Me.ButtonN.Margin = New System.Windows.Forms.Padding(0)
         Me.ButtonN.Name = "ButtonN"
         Me.ButtonN.Size = New System.Drawing.Size(39, 20)
@@ -183,7 +187,7 @@ Partial Class FM
         Me.ButtonSV.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonSV.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonSV.ForeColor = System.Drawing.Color.DarkGreen
-        Me.ButtonSV.Location = New System.Drawing.Point(81, 50)
+        Me.ButtonSV.Location = New System.Drawing.Point(149, 53)
         Me.ButtonSV.Margin = New System.Windows.Forms.Padding(0)
         Me.ButtonSV.Name = "ButtonSV"
         Me.ButtonSV.Size = New System.Drawing.Size(29, 20)
@@ -198,7 +202,7 @@ Partial Class FM
         Me.LT.BackColor = System.Drawing.Color.Transparent
         Me.LT.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LT.ForeColor = System.Drawing.Color.DarkGreen
-        Me.LT.Location = New System.Drawing.Point(0, 76)
+        Me.LT.Location = New System.Drawing.Point(1, 130)
         Me.LT.Margin = New System.Windows.Forms.Padding(0)
         Me.LT.Name = "LT"
         Me.LT.Size = New System.Drawing.Size(109, 22)
@@ -214,7 +218,7 @@ Partial Class FM
         Me.PBC.BackColor = System.Drawing.Color.Transparent
         Me.PBC.BackgroundImage = Global.adb1.My.Resources.Resources.adbicon
         Me.PBC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.PBC.Location = New System.Drawing.Point(22, 10)
+        Me.PBC.Location = New System.Drawing.Point(1, 2)
         Me.PBC.Margin = New System.Windows.Forms.Padding(0)
         Me.PBC.Name = "PBC"
         Me.PBC.Size = New System.Drawing.Size(22, 22)
@@ -228,12 +232,12 @@ Partial Class FM
         Me.Label1.BackColor = System.Drawing.Color.Transparent
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Bold)
         Me.Label1.ForeColor = System.Drawing.Color.DarkGreen
-        Me.Label1.Location = New System.Drawing.Point(1, 98)
+        Me.Label1.Location = New System.Drawing.Point(0, 92)
         Me.Label1.Margin = New System.Windows.Forms.Padding(0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(49, 17)
+        Me.Label1.Size = New System.Drawing.Size(73, 17)
         Me.Label1.TabIndex = 19
-        Me.Label1.Text = "Address:"
+        Me.Label1.Text = "Address/Port:"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft
         Me.Label1.UseCompatibleTextRendering = True
         '
@@ -241,12 +245,12 @@ Partial Class FM
         '
         Me.TextBoxAddress.BackColor = System.Drawing.Color.DarkGreen
         Me.TextBoxAddress.ForeColor = System.Drawing.Color.White
-        Me.TextBoxAddress.Location = New System.Drawing.Point(51, 99)
+        Me.TextBoxAddress.Location = New System.Drawing.Point(73, 93)
         Me.TextBoxAddress.Margin = New System.Windows.Forms.Padding(0)
         Me.TextBoxAddress.MaxLength = 30
         Me.TextBoxAddress.Name = "TextBoxAddress"
         Me.TextBoxAddress.ShortcutsEnabled = False
-        Me.TextBoxAddress.Size = New System.Drawing.Size(119, 20)
+        Me.TextBoxAddress.Size = New System.Drawing.Size(125, 20)
         Me.TextBoxAddress.TabIndex = 20
         Me.TextBoxAddress.Text = "10.0.0.27:5555"
         Me.TextBoxAddress.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -255,15 +259,53 @@ Partial Class FM
         '
         Me.ButtonConnect.BackColor = System.Drawing.Color.Transparent
         Me.ButtonConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ButtonConnect.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!)
+        Me.ButtonConnect.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ButtonConnect.ForeColor = System.Drawing.Color.DarkGreen
-        Me.ButtonConnect.Location = New System.Drawing.Point(98, 119)
+        Me.ButtonConnect.Location = New System.Drawing.Point(73, 113)
         Me.ButtonConnect.Margin = New System.Windows.Forms.Padding(0)
         Me.ButtonConnect.Name = "ButtonConnect"
-        Me.ButtonConnect.Size = New System.Drawing.Size(72, 20)
+        Me.ButtonConnect.Size = New System.Drawing.Size(57, 22)
         Me.ButtonConnect.TabIndex = 21
         Me.ButtonConnect.Text = "Connect"
         Me.ButtonConnect.UseVisualStyleBackColor = False
+        '
+        'ButtonPair
+        '
+        Me.ButtonPair.BackColor = System.Drawing.Color.Transparent
+        Me.ButtonPair.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonPair.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!)
+        Me.ButtonPair.ForeColor = System.Drawing.Color.DarkGreen
+        Me.ButtonPair.Location = New System.Drawing.Point(29, 2)
+        Me.ButtonPair.Margin = New System.Windows.Forms.Padding(0)
+        Me.ButtonPair.Name = "ButtonPair"
+        Me.ButtonPair.Size = New System.Drawing.Size(71, 20)
+        Me.ButtonPair.TabIndex = 22
+        Me.ButtonPair.Text = "Pair"
+        Me.ButtonPair.UseVisualStyleBackColor = False
+        '
+        'ProgressBar
+        '
+        Me.ProgressBar.BackColor = System.Drawing.Color.Black
+        Me.ProgressBar.Location = New System.Drawing.Point(12, 50)
+        Me.ProgressBar.Margin = New System.Windows.Forms.Padding(0)
+        Me.ProgressBar.Name = "ProgressBar"
+        Me.ProgressBar.Size = New System.Drawing.Size(100, 23)
+        Me.ProgressBar.TabIndex = 23
+        Me.TT.SetToolTip(Me.ProgressBar, "Executing...")
+        Me.ProgressBar.Visible = False
+        '
+        'ErrorDetailsLabel
+        '
+        Me.ErrorDetailsLabel.AutoSize = True
+        Me.ErrorDetailsLabel.BackColor = System.Drawing.Color.Red
+        Me.ErrorDetailsLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ErrorDetailsLabel.Location = New System.Drawing.Point(131, 120)
+        Me.ErrorDetailsLabel.Name = "ErrorDetailsLabel"
+        Me.ErrorDetailsLabel.Size = New System.Drawing.Size(70, 32)
+        Me.ErrorDetailsLabel.TabIndex = 24
+        Me.ErrorDetailsLabel.Text = "ERROR" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "DETAILS" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+        Me.ErrorDetailsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.ErrorDetailsLabel.Visible = False
         '
         'FM
         '
@@ -272,7 +314,10 @@ Partial Class FM
         Me.BackColor = System.Drawing.Color.Black
         Me.BackgroundImage = Global.adb1.My.Resources.Resources.back
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(191, 156)
+        Me.ClientSize = New System.Drawing.Size(200, 150)
+        Me.Controls.Add(Me.ErrorDetailsLabel)
+        Me.Controls.Add(Me.ProgressBar)
+        Me.Controls.Add(Me.ButtonPair)
         Me.Controls.Add(Me.ButtonConnect)
         Me.Controls.Add(Me.TextBoxAddress)
         Me.Controls.Add(Me.Label1)
@@ -319,4 +364,7 @@ Partial Class FM
     Friend WithEvents Label1 As Label
     Friend WithEvents TextBoxAddress As TextBox
     Friend WithEvents ButtonConnect As Button
+    Friend WithEvents ButtonPair As Button
+    Friend WithEvents ProgressBar As ProgressBar
+    Friend WithEvents ErrorDetailsLabel As Label
 End Class
