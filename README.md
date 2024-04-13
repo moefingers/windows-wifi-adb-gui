@@ -14,6 +14,10 @@ This project is deemed by me as incomplete as of April 2024. Previously, this pr
 ## Completed tasks
 - Added form for address and port input.
 - Begun readme
+- Rename ambiguous variables like File1, FileName1, FileStream1, BinaryWriter1, BytesToWrite1 etc. Embarassing, but I was a child that many years ago.
+- Moved errorbox to sub
+- Moved get volume command to sub
+- 
 
 # Summary
 A GUI nested in the windows task tray to control music on a device running ADB over WIFI.
