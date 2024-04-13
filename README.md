@@ -1,11 +1,15 @@
 # Summary / Use
 A GUI nested in the windows task tray to control music on a device running ADB over WIFI.\
-This is a passion project begun prior to 2019 and I resumed work on it in April 2024.\
-As of late, <u>**it is required to pair a device prior**</u> to connection. See images.
+This is a passion project begun prior to 2019 and I resumed work on it in April 2024.
+
+As of late, <u>**it is required to pair a device prior**</u> to connection. See images. And don't forget to input the address again with NEW port from OTHER page on your Wireless Debugging application AFTER you pair.
 <!-- inc image -->
 <!-- ![Image](/README-pair1.png) -->
-<img src="https://raw.githubusercontent.com/moefingers/windows-wifi-adb-gui/shepherd/README-pair1.png" width="200">
-<img src="https://raw.githubusercontent.com/moefingers/windows-wifi-adb-gui/shepherd/README-pair2.png" width="200">
+<div style="display:flex">
+<img src="https://raw.githubusercontent.com/moefingers/windows-wifi-adb-gui/shepherd/README-pair1.png" width="49%">
+<img src="https://raw.githubusercontent.com/moefingers/windows-wifi-adb-gui/shepherd/README-pair2.png" width="49%">
+</div>
+
 
 ## Notes
 Application may stall or wait during connection attempt. This is normal. I may change that in the future.
@@ -13,13 +17,16 @@ Application may stall or wait during connection attempt. This is normal. I may c
 Android Debug Bridge version 1.0.41 | Version 35.0.1-11580240 | Associated [NOTICE.txt](https://github.com/moefingers/windows-wifi-adb-gui/notice.txt)
 
 # Downloads
-[](https://github.com/moefingers/windows-wifi-adb-gui/release/WIFI%20ADB%20GUI)
+[](https://github.com/moefingers/windows-wifi-adb-gui/release/WIFI-ADB-GUI.exe)
 <!-- the above line is a placeholder -->
 ## Incomplete tasks
-- New adb shell no longer uses old media command format. Reworking to use adb shell input keyevents
+- Discovered adb shell media_cmd as alternative to old command adb shell media dispatch which was deprecated to the point of being functionless. Sticking with shell input keyevents as this is hypothetically more direct but will investigate further in the future.
 
 
 ## Completed tasks
+- Added regexp for more consistent volume output in shell
+- New adb shell no longer uses old media command format. Reworked adb to use shell input keyevents.
+- added flexbox to readme images
 - Ensure command windows are hidden during execution for smooth user experience.
 - Stop using Shell in favor of Process.Start
 - Added form for address and port input.

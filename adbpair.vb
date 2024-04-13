@@ -13,9 +13,19 @@
 
     Private Sub ButtonPair_Click(sender As Object, e As EventArgs) Handles ButtonPair.Click
         If Len(TextBoxPairCode.Text) = 6 And Len(TextBoxPairAddress.Text) > 8 Then
-            adb1.FM.ExecuteHiddenProcess("adb.exe", $"pair {TextBoxPairAddress.Text} {TextBoxPairCode.Text}")
+            FM.ExecuteHiddenProcess("adb.exe", $"pair {TextBoxPairAddress.Text} {TextBoxPairCode.Text}")
         Else
         End If
 
+    End Sub
+
+    Private Sub ButtonPair_MouseDown(sender As Object, e As MouseEventArgs) Handles ButtonPair.MouseDown
+        ButtonPair.BackColor = Color.Red
+        ButtonPair.Text = "WAIT."
+    End Sub
+
+    Private Sub ButtonPair_MouseUp(sender As Object, e As MouseEventArgs) Handles ButtonPair.MouseUp
+        ButtonPair.BackColor = Color.Transparent
+        ButtonPair.Text = "Attempt Pairing"
     End Sub
 End Class

@@ -118,7 +118,7 @@ Partial Class adbpair
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.BackgroundImage = Global.adb1.My.Resources.Resources.back
+        Me.BackgroundImage = Global.WiFiADBGUI.My.Resources.Resources.back
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(200, 100)
         Me.Controls.Add(Me.LinkLabelReadme)

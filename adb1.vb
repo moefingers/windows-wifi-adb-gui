@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Runtime.InteropServices
+Imports System.Runtime.Remoting.Channels
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Text.RegularExpressions
 Imports System.Xml
@@ -123,34 +124,34 @@ Public Class FM
 
     'media controls
     Private Sub ButtonPP_Click(sender As Object, e As EventArgs) Handles ButtonPP.Click
-        ExecuteHiddenProcess("adb.exe", "shell media dispatch play-pause")
+        ExecuteHiddenProcess("adb.exe", "shell input keyevent 85")
     End Sub
     Private Sub ButtonRV_Click(sender As Object, e As EventArgs) Handles ButtonRV.Click
         'raise volume for connected device and update volume in text box with GetConnectedDeviceVolume()
-        ExecuteHiddenProcess("adb.exe", "shell media volume --adj raise")
+        ExecuteHiddenProcess("adb.exe", "shell input keyevent 24")
         GetConnectedDeviceVolume()
     End Sub
 
     Private Sub ButtonLV_Click(sender As Object, e As EventArgs) Handles ButtonLV.Click
         'lower volume for connected device and update volume in text box with GetConnectedDeviceVolume()
-        ExecuteHiddenProcess("adb.exe", "shell media volume --adj lower")
+        ExecuteHiddenProcess("adb.exe", "shell input keyevent 25")
         GetConnectedDeviceVolume()
     End Sub
 
     Private Sub ButtonSV_Click(sender As Object, e As EventArgs) Handles ButtonSV.Click
         'Set volume for connected device and update volume in text box with GetConnectedDeviceVolume()
-        ExecuteHiddenProcess("adb.exe", $"shell media volume --set {TextBoxV.Text}")
+        ExecuteHiddenProcess("adb.exe", $"shell cmd media_session volume --set {TextBoxV.Text}")
         GetConnectedDeviceVolume()
     End Sub
 
     Private Sub ButtonP_Click(sender As Object, e As EventArgs) Handles ButtonP.Click
         'Double execution media previous because the first previous returns to beginning of song
-        ExecuteHiddenProcess("adb.exe", "media dispatch previous")
-        ExecuteHiddenProcess("adb.exe", "media dispatch previous")
+        ExecuteHiddenProcess("adb.exe", "shell input keyevent 88")
+        ExecuteHiddenProcess("adb.exe", "shell input keyevent 88")
     End Sub
 
     Private Sub ButtonN_Click(sender As Object, e As EventArgs) Handles ButtonN.Click
-        ExecuteHiddenProcess("adb.exe", "media dispatch next")
+        ExecuteHiddenProcess("adb.exe", "shell input keyevent 87")
     End Sub
 
     'Connection
@@ -204,14 +205,15 @@ Public Class FM
 
         'invoke hidden process function with standard hidden properties
         'return is array of standardoutput and standard error
-        Dim VolumeProcessOutput = Await ExecuteHiddenProcess("adb.exe", "shell media volume --get")
+        Dim VolumeProcessOutput = Await ExecuteHiddenProcess("adb.exe", "shell cmd media_session volume --get")
 
 
-        ' set volume in textbox for viewing
+        ' display volume in textbox
+
+        'Dim RegExpMatchOutput As Match = Regex.Match(VolumeProcessOutput(0), ".*\[(\d+)\.+(\d+)\]") - for range
+        Dim RegExpMatchOutput As Match = Regex.Match(VolumeProcessOutput(0), ".*volume is (\d+).*")
         Try
-            Dim GetVolumeProcessSS As String = VolumeProcessOutput(0).Substring(67, 2)
-            MsgBox(GetVolumeProcessSS)
-            TextBoxV.Text = GetVolumeProcessSS
+            TextBoxV.Text = RegExpMatchOutput.Groups(1).Value
         Catch f As ArgumentOutOfRangeException
             ConnectionErrorMsgBox($"{VolumeProcessOutput(0)} ||||||||||| {VolumeProcessOutput(1)}")
         End Try
@@ -223,6 +225,7 @@ Public Class FM
     Public Sub ConnectionErrorMsgBox(Message As String)
         Me.ErrorMessage = Message
         ErrorDetailsLabel.Visible = True
+        ShortStatusLabel.Text = ""
     End Sub
 
     Private Sub ErrorDetailsLabel_Click(sender As Object, e As EventArgs) Handles ErrorDetailsLabel.Click
@@ -261,7 +264,8 @@ Public Class FM
         Dim RegExpMatchOutput As Match = Regex.Match(StandardResult(0), "(.*): (.*)")
         Dim RegExpMatchError As Match = Regex.Match(StandardResult(1), "(.*): (.*)")
 
-        Dim RegExpMatchOutputSuccess As Boolean = Regex.IsMatch(StandardResult(0), "Successful.*")
+        Dim RegExpMatchOutputSuccess As Boolean = Regex.IsMatch(StandardResult(0), ".*Successful.*")
+        Dim RegExpMatchVolumeNormal As Boolean = Regex.IsMatch(StandardResult(0), ".*volume.*")
 
         'Console.WriteLine($"RegExpMatch: {RegExpMatchOutput.Groups(0).Value}")
         'Console.WriteLine($"RegExpMatch: {RegExpMatchOutput.Groups(1).Value}")
@@ -277,7 +281,10 @@ Public Class FM
         If RegExpMatchOutputSuccess = True Then
             ShortStatusLabel.Text = "Pairing successful."
         Else
-            ConnectionErrorMsgBox($"Check Address and port... {StandardResult(0)} || {StandardResult(1)}")
+            If Not Parameters = "kill-server" And RegExpMatchVolumeNormal = False And Not StandardResult(0) = "" Then
+                ConnectionErrorMsgBox($"Check ADDRESS and PORT... {StandardResult(0)} || {StandardResult(1)}")
+            End If
+
         End If
 
 

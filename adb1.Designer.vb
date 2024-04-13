@@ -216,7 +216,7 @@ Partial Class FM
         '
         Me.PBC.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.PBC.BackColor = System.Drawing.Color.Transparent
-        Me.PBC.BackgroundImage = Global.adb1.My.Resources.Resources.adbicon
+        Me.PBC.BackgroundImage = Global.WiFiADBGUI.My.Resources.Resources.adbicon
         Me.PBC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.PBC.Location = New System.Drawing.Point(1, 2)
         Me.PBC.Margin = New System.Windows.Forms.Padding(0)
@@ -315,7 +315,7 @@ Partial Class FM
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Black
-        Me.BackgroundImage = Global.adb1.My.Resources.Resources.back
+        Me.BackgroundImage = Global.WiFiADBGUI.My.Resources.Resources.back
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(200, 150)
         Me.Controls.Add(Me.ShortStatusLabel)

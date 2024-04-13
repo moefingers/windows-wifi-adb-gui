@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("ADB-GUI")>
+<Assembly: AssemblyTitle("WIFI-ADB-GUI")>
 <Assembly: AssemblyDescription("An application to control media through ADB over WiFi")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("ADB-GUI")>
+<Assembly: AssemblyProduct("WIFI-ADB-GUI")>
 <Assembly: AssemblyCopyright("")>
 <Assembly: AssemblyTrademark("")>
 
@@ -33,5 +33,5 @@ Imports System.Runtime.InteropServices
 ' <Assembly: AssemblyVersion("1.0.*")>
 
 <Assembly: AssemblyVersion("1.0.0.0")>
-<Assembly: AssemblyFileVersion("1.0.0.0")>
+<Assembly: AssemblyFileVersion("3.0.0.6")>
 <Assembly: NeutralResourcesLanguage("en-US")>
