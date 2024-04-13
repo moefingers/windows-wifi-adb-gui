@@ -17,13 +17,14 @@ Application may stall or wait during connection attempt. This is normal. I may c
 Android Debug Bridge version 1.0.41 | Version 35.0.1-11580240 | Associated [NOTICE.txt](https://github.com/moefingers/windows-wifi-adb-gui/notice.txt)
 
 # Downloads
-[](https://github.com/moefingers/windows-wifi-adb-gui/release/WIFI-ADB-GUI.exe)
+[Release 3.0.0.6](https://github.com/moefingers/windows-wifi-adb-gui/release/WIFI-ADB-GUI.exe)
 <!-- the above line is a placeholder -->
 ## Incomplete tasks
 - Discovered adb shell media_cmd as alternative to old command adb shell media dispatch which was deprecated to the point of being functionless. Sticking with shell input keyevents as this is hypothetically more direct but will investigate further in the future.
 
 
 ## Completed tasks
+- redid get volume commands
 - Added regexp for more consistent volume output in shell
 - New adb shell no longer uses old media command format. Reworked adb to use shell input keyevents.
 - added flexbox to readme images
